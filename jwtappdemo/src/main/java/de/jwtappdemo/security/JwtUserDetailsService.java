@@ -1,6 +1,8 @@
 package de.jwtappdemo.security;
 
 import de.jwtappdemo.model.User;
+import de.jwtappdemo.security.jwt.JwtUser;
+import de.jwtappdemo.security.jwt.JwtUserFactory;
 import de.jwtappdemo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User with username: " + username + " not found.");
         }
-
-        return null;
+        JwtUser jwtUser = JwtUserFactory.create(user);
+        log.info("IN loadUserByUsername - user with username: {} successfully loaded", username);
+        return jwtUser;
     }
 }
